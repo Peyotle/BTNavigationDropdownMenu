@@ -99,7 +99,7 @@ open class BTNavigationDropdownMenu: UIView {
     }
 
     // The font of the text inside cell. Default is HelveticaNeue-Bold, size 17
-    open var cellTextLabelFont: UIFont! {
+    @objc open var cellTextLabelFont: UIFont! {
         get {
             return self.configuration.cellTextLabelFont
         }
@@ -109,7 +109,7 @@ open class BTNavigationDropdownMenu: UIView {
     }
 
     // The font of the navigation bar title. Default is HelveticaNeue-Bold, size 17
-    open var navigationBarTitleFont: UIFont! {
+    @objc open var navigationBarTitleFont: UIFont! {
         get {
             return self.configuration.navigationBarTitleFont
         }
@@ -219,9 +219,9 @@ open class BTNavigationDropdownMenu: UIView {
             self.configuration.shouldChangeTitleText = value
         }
     }
-
-    open var didSelectItemAtIndexHandler: ((_ indexPath: Int) -> ())?
-    open var didChangeOpenStatusHandler: ((_ open: Bool) -> ())?
+    
+    @objc open var didSelectItemAtIndexHandler: ((_ indexPath: Int) -> ())?
+    @objc open var didChangeOpenStatusHandler: ((_ open: Bool) -> ())?
     open var isShown: Bool!
 
     fileprivate weak var navigationController: UINavigationController?
@@ -249,8 +249,8 @@ open class BTNavigationDropdownMenu: UIView {
         - title: A string to define title to be displayed.
         - items: The array of items to select
      */
-    public convenience init(navigationController: UINavigationController? = nil, containerView: UIView = UIApplication.shared.keyWindow!, title: String, items: [String]) {
-
+    @objc public convenience init(navigationController: UINavigationController? = nil, containerView: UIView = UIApplication.shared.keyWindow!, title: String, items: [String]) {
+        
         self.init(navigationController: navigationController, containerView: containerView, title: BTTitle.title(title), items: items)
     }
 
@@ -386,35 +386,35 @@ open class BTNavigationDropdownMenu: UIView {
         self.menuWrapper.frame.origin.y = self.navigationController!.navigationBar.frame.maxY
         self.tableView.reloadData()
     }
-
-    open func show() {
+    
+    @objc open func show() {
         if self.isShown == false {
             self.showMenu()
         }
     }
-
-    open func hide() {
+    
+    @objc open func hide() {
         if self.isShown == true {
             self.hideMenu()
         }
     }
-
-    open func toggle() {
+    
+    @objc open func toggle() {
         if(self.isShown == true) {
             self.hideMenu();
         } else {
             self.showMenu();
         }
     }
-
-    open func updateItems(_ items: [String]) {
+    
+    @objc open func updateItems(_ items: [String]) {
         if !items.isEmpty {
             self.tableView.items = items
             self.tableView.reloadData()
         }
     }
-
-    open func setSelected(index: Int) {
+    
+    @objc open func setSelected(index: Int) {
         self.tableView.selectedIndexPath = index
         self.tableView.reloadData()
 
@@ -492,9 +492,9 @@ open class BTNavigationDropdownMenu: UIView {
             options: [],
             animations: {
                 self.tableView.frame.origin.y = CGFloat(-200)
-            }, completion: { _ in
-                self.didChangeOpenStatusHandler!(false);
-            }
+        }, completion: { _ in
+            self.didChangeOpenStatusHandler!(false);
+        }
         )
 
         // Animation
