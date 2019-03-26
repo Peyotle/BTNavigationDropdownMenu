@@ -221,6 +221,7 @@ open class BTNavigationDropdownMenu: UIView {
     }
 
     open var didSelectItemAtIndexHandler: ((_ indexPath: Int) -> ())?
+    open var didChangeOpenStatusHandler: ((_ open: Bool) -> ())?
     open var isShown: Bool!
 
     fileprivate weak var navigationController: UINavigationController?
@@ -435,7 +436,8 @@ open class BTNavigationDropdownMenu: UIView {
         self.menuWrapper.frame.origin.y = self.navigationController!.navigationBar.frame.maxY
 
         self.isShown = true
-
+        self.didChangeOpenStatusHandler!(true);
+        
         // Table view header
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: 300))
         headerView.backgroundColor = self.configuration.cellBackgroundColor
@@ -481,7 +483,7 @@ open class BTNavigationDropdownMenu: UIView {
 
         // Change background alpha
         self.backgroundView.alpha = self.configuration.maskBackgroundOpacity
-
+        
         UIView.animate(
             withDuration: self.configuration.animationDuration * 1.5,
             delay: 0,
@@ -490,7 +492,9 @@ open class BTNavigationDropdownMenu: UIView {
             options: [],
             animations: {
                 self.tableView.frame.origin.y = CGFloat(-200)
-        }, completion: nil
+            }, completion: { _ in
+                self.didChangeOpenStatusHandler!(false);
+            }
         )
 
         // Animation
